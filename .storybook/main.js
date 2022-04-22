@@ -13,9 +13,9 @@ module.exports = {
   "core": {
     "builder": "@storybook/builder-vite"
   },
-  async viteFinal(config) {
+  viteFinal: (config) => {
     return mergeConfig(config, {
-      publicDir: "/vite-storybook-example/assets"
+      base: "/vite-storybook-example"
     });
   }
 }
