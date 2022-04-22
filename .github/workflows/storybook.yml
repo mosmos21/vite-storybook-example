@@ -8,9 +8,8 @@ jobs:
         with:
           persist-credentials: false
       - run: npm i && npm run build-storybook
-      - uses: JamesIves/github-pages-deploy-action@3.6.2
+      - uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           branch: storybook
           folder: storybook-static
-          target_folder: storybook-static
