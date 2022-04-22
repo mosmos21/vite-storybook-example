@@ -15,6 +15,7 @@ module.exports = {
   },
   async viteFinal(config) {
     return mergeConfig(config, {
+      publicDir: "/assets"
     });
   }
 }
