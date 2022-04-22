@@ -1,3 +1,5 @@
+const { mergeConfig } = require('vite');
+
 module.exports = {
   "stories": [
     "../src/**/*.stories.mdx",
@@ -5,20 +7,14 @@ module.exports = {
   ],
   "addons": [
     "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+    "@storybook/addon-essentials"
   ],
   "framework": "@storybook/react",
   "core": {
     "builder": "@storybook/builder-vite"
   },
   async viteFinal(config) {
-    return {
-      ...config,
-      define: {
-        ...config.define,
-        global: "window",
-      },
-    };
+    return mergeConfig(config, {
+    });
   }
 }
