@@ -5,16 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/github-script@v6
-        with:
-          script: |
-            console.log(github)
-      - name: output encoded branch name
+      - uses: mdecoleman/pr-branch-name@1.2.0
         id: branch-name
-        uses: actions/github-script@v6
         with:
-          script: return encodeURIComponent(context.ref.replace('refs/heads/', '').replace('/', '_'))
-          result-encoding: string
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: output commit hash
         id: commit-hash
         run: echo "::set-output name=result::$(git rev-parse HEAD)"
@@ -29,12 +23,12 @@ jobs:
           if [ $(git status --short | wc -l) -ne 0 ]; then git commit -m "Deploying to storybook from @ mosmos21/vite-storybook-example@$COMMIT_HASH 🚀"; fi
           git push
         env:
-          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
+          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.branch }}/
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_DIR: ${{ steps.branch-name.outputs.result }}
+          TARGET_DIR: ${{ steps.branch-name.outputs.branch }}
           COMMIT_HASH: ${{ steps.commit-hash.outputs.result }}
       - name: comment url on pull request
         run: |
           echo $STORYBOOK_URL
         env:
-          STORYBOOK_URL: https://mosmos21.github.io/vite-storybook-example/${{ steps.branch-name.outputs.result }}
+          STORYBOOK_URL: https://mosmos21.github.io/vite-storybook-example/${{ steps.branch-name.outputs.branch }}
