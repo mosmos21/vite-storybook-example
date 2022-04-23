@@ -10,9 +10,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: return encodeURIComponent(context.ref.replace('refs/heads/', ''))
+          result-encoding: string
       - run: echo $STORYBOOK_BASE_DIR
         env:
-          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ echo steps.branch-name.outputs.result }}/
+          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
       #- name: build storybook
       #  run: npm i && npm run build-storybook
       #- uses: JamesIves/github-pages-deploy-action@v4.3.0
