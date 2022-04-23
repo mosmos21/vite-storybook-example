@@ -15,9 +15,8 @@ jobs:
         run: npm i && npm run build-storybook
         env:
           STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
-      - run: cat storybook-static/iframe.html | grep add-button-component
-      #- uses: JamesIves/github-pages-deploy-action@v4.3.0
-        #with:
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #branch: storybook
-          #folder: storybook-static
+      - run: |
+        git config --local user.email github-actions@mosmos21.net
+        git config --local user.name github-actions
+        git checkout -b storybook origin/storybook
+        git status
