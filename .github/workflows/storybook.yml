@@ -1,20 +1,20 @@
 name: Build and Deploy
-on: push
+on: pull_request
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: output encoded branch name 🌲
+      - name: output encoded branch name
         id: branch-name
         uses: actions/github-script@v6
         with:
-          script: return encodeURIComponent(context.ref.replace('refs/heads/', ''))
+          script: return encodeURIComponent(context.ref.replace('refs/heads/', '').replace('/', '_'))
           result-encoding: string
-      - name: output commit hash #️⃣
+      - name: output commit hash
         id: commit-hash
         run: echo "::set-output name=result::$(git rev-parse HEAD)"
-      - name: build storybook 🔧 and deploy 🚀
+      - name: build storybook and deploy
         run: |
           npm i && npm run build-storybook
           git config --local user.email github-action@mosmos21.net
@@ -29,3 +29,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_DIR: ${{ steps.branch-name.outputs.result }}
           COMMIT_HASH: ${{ steps.commit-hash.outputs.result }}
+      - name: comment url on pull request
+        run: |
+          echo $STORYBOOK_URL
+        env:
+          STORYBOOK_URL: https://mosmos21.github.io/vite-storybook-example/${{ steps.branch-name-outputs.result }}
