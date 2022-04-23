@@ -11,16 +11,14 @@ jobs:
         with:
           script: return encodeURIComponent(context.ref.replace('refs/heads/', ''))
           result-encoding: string
-      #- name: build storybook 🔧
-#        run: npm i && npm run build-storybook
-#        env:
-#          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
-      - name: deploy storybook branch 🚀
+      - name: build storybook 🔧 and deploy 🚀
         run: |
-          git fetch origin storybook && git checkout storybook && git branch
-          #mv storybook-static $TARGET_DIR
-          #git add $TARGET_DIR
-          #if [ $(git status --short | wc -l) -ne 0 ]; then echo test; fi
+          npm i && npm run build-storybook
+          git fetch origin storybook && git checkout storybook
+          mv storybook-static $TARGET_DIR
+          git add $TARGET_DIR
+          if [ $(git status --short | wc -l) -ne 0 ]; then echo test; fi
         env:
+          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_DIR: ${{ steps.branch-name.outputs.result }}
