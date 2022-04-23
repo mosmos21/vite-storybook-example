@@ -19,7 +19,7 @@ jobs:
         with:
           ref: storybook
       - run: |
-          git branch --current-branch
+          git branch --show-current
           git status
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
