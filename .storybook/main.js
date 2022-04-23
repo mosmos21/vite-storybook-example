@@ -15,8 +15,8 @@ module.exports = {
   },
   viteFinal: (config) => {
     const overrides  = {}
-    if (config.build) {
-      overrides.base = "/vite-storybook-example"
+    if (config.build && process.env.STORYBOOK_BASE_DIR) {
+      overrides.base = process.env.STORYBOOK_BASE_DIR
     }
 
     return mergeConfig(config, overrides);
