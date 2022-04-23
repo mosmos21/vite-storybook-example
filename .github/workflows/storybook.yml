@@ -16,7 +16,7 @@ jobs:
         env:
           STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
       - run: |
-        git config --local user.email github-actions@mosmos21.net
-        git config --local user.name github-actions
-        git checkout -b storybook origin/storybook
-        git status
+          git config --local user.email github-actions@mosmos21.net
+          git config --local user.name github-actions
+          git checkout -b storybook origin/storybook
+          git status
