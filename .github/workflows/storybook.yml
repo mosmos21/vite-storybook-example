@@ -20,6 +20,7 @@ jobs:
           ref: storybook
       - name: deploy storybook branch 🚀
         run: |
+          echo $TARGET_DIR
           mv storybook-static $TARGET_DIR
           git add $TARGET_DIR
           if [ $(git status --short | wc -l) -ne 0 ]; then echo test; fi
