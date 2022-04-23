@@ -5,10 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/github-script@v6
+      - name: output encoded branch name
+        id: branch-name
+        uses: actions/github-script@v6
         with:
-          script: |
-            console.log(context.ref.replace('refs/heads/', ''))
+          script: return encodeURIComponent(context.ref.replace('refs/heads/', ''))
+      - run: echo {{ steps.branch-name.outputs.result }}
       #- run: npm i && npm run build-storybook
       #- uses: JamesIves/github-pages-deploy-action@v4.3.0
         #with:
