@@ -17,7 +17,7 @@ jobs:
 #          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
       - name: deploy storybook branch 🚀
         run: |
-          git remote -v
+          git fetch origin storybook && git checkout storybook && git branch
           #mv storybook-static $TARGET_DIR
           #git add $TARGET_DIR
           #if [ $(git status --short | wc -l) -ne 0 ]; then echo test; fi
