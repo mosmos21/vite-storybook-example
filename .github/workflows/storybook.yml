@@ -1,0 +1,31 @@
+name: Build and Deploy
+on: push
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: output encoded branch name 🌲
+        id: branch-name
+        uses: actions/github-script@v6
+        with:
+          script: return encodeURIComponent(context.ref.replace('refs/heads/', ''))
+          result-encoding: string
+      - name: output commit hash #️⃣
+        id: commit-hash
+        run: echo "::set-output name=result::$(git rev-parse HEAD)"
+      - name: build storybook 🔧 and deploy 🚀
+        run: |
+          npm i && npm run build-storybook
+          git config --local user.email github-action@mosmos21.net
+          git config --local user.name github-actions
+          git fetch origin storybook && git checkout storybook
+          mv storybook-static $TARGET_DIR
+          git add $TARGET_DIR
+          if [ $(git status --short | wc -l) -ne 0 ]; then git commit -m "Deploying to storybook from @ mosmos21/vite-storybook-example@$COMMIT_HASH 🚀"; fi
+          git push
+        env:
+          STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_DIR: ${{ steps.branch-name.outputs.result }}
+          COMMIT_HASH: ${{ steps.commit-hash.outputs.result }}
