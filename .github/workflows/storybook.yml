@@ -33,4 +33,4 @@ jobs:
         run: |
           echo $STORYBOOK_URL
         env:
-          STORYBOOK_URL: https://mosmos21.github.io/vite-storybook-example/${{ steps.branch-name-outputs.result }}
+          STORYBOOK_URL: https://mosmos21.github.io/vite-storybook-example/${{ steps.branch-name.outputs.result }}
