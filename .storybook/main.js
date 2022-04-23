@@ -14,8 +14,11 @@ module.exports = {
     "builder": "@storybook/builder-vite"
   },
   viteFinal: (config) => {
-    return mergeConfig(config, {
-      base: "/vite-storybook-example"
-    });
+    const overrides  = {}
+    if (config.build) {
+      overrides.base = "/vite-storybook-example"
+    }
+
+    return mergeConfig(config, overrides);
   }
 }
