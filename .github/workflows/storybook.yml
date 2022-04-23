@@ -35,6 +35,6 @@ jobs:
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
             const body = `Deploying to ${process.env.STORYBOOK_URL}`;
             
-            github.issues.createComment({ issue_number, owner, repo, body });
+            github.rest.issues.createComment({ issue_number, owner, repo, body });
         env:
           STORYBOOK_URL: https://mosmos21.github.io/vite-storybook-example/${{ steps.branch-name.outputs.branch }}
