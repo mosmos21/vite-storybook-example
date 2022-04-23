@@ -3,7 +3,7 @@ import { Button } from "./Button";
 export default {
   component: Button,
   args: {
-    label: "button label"
+    label: "button label test"
   }
 }
 
