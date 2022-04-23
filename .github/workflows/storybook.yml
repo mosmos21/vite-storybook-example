@@ -18,7 +18,7 @@ jobs:
           git config --local user.email github-action@mosmos21.net
           git config --local user.name github-actions
           git fetch origin storybook && git checkout storybook
-          mv storybook-static $TARGET_DIR
+          rm -rf $TARGET_DIR && mv storybook-static $TARGET_DIR
           git add $TARGET_DIR
           if [ $(git status --short | wc -l) -ne 0 ]; then git commit -m "Deploying to storybook from @ mosmos21/vite-storybook-example@$COMMIT_HASH 🚀"; fi
           git push
