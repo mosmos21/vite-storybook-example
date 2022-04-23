@@ -28,7 +28,13 @@ jobs:
           TARGET_DIR: ${{ steps.branch-name.outputs.branch }}
           COMMIT_HASH: ${{ steps.commit-hash.outputs.result }}
       - name: comment url on pull request
-        run: |
-          echo $STORYBOOK_URL
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            const body = `Deploying to ${process.env.STORYBOOK_URL}`;
+            
+            github.issues.createComment({ issue_number, owner, repo, body });
         env:
           STORYBOOK_URL: https://mosmos21.github.io/vite-storybook-example/${{ steps.branch-name.outputs.branch }}
