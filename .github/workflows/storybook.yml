@@ -5,17 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: output encoded branch name
+      - name: output encoded branch name 🌲
         id: branch-name
         uses: actions/github-script@v6
         with:
           script: return encodeURIComponent(context.ref.replace('refs/heads/', ''))
           result-encoding: string
-      - run: echo $STORYBOOK_BASE_DIR
+      - name: build storybook 🔧
+        run: npm i && npm run build-storybook
         env:
           STORYBOOK_BASE_DIR: /vite-storybook-example/${{ steps.branch-name.outputs.result }}/
-      #- name: build storybook
-      #  run: npm i && npm run build-storybook
+      - run: cat storybook-static/iframe.html | grep add-button-component
       #- uses: JamesIves/github-pages-deploy-action@v4.3.0
         #with:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
