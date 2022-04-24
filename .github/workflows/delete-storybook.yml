@@ -14,5 +14,12 @@ jobs:
         id: branch-name
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ steps.branch-name.outputs.branch }}
-      - run: echo ${{ github.event }}
+      - run: |
+          git config --local user.email github-action@mosmos21.net
+          git config --local user.name github-actions
+          rm -rf $TARGET_BRANCH
+          git add $TARGET_BRANCH
+          if [ $(git status --short | wc -l) -ne 0 ]; then git commit -m "Delete storybook @ $TARGET_BRANCH"; fi
+          git push
+        env:
+          TARGET_BRANCH: ${{ steps.branch-name.outputs.branch }}
